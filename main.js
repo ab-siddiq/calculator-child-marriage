@@ -33,25 +33,22 @@ const getSetRadioButtonValue = (inputID, outputID) => {
     }
 }
 const getInputValue = () => {
-    let name = callInputID('name-display');
-    let age = parseFloat(callInputID('age-display'));
-    let annualIncome = parseFloat(callInputID('annual-income-display'));
-    let childAgeNow = parseFloat(callInputID('child-age-now-display'));
-    let meetGoalAge = parseFloat(callInputID('meet-goal-at-age-display'));
-    let goalCost = parseFloat(callInputID('goal-cost-display'));
-    let possibleInvestment = parseFloat(callInputID('possible-investment-display'));
-    let risk = callInputID('risk-display');
-    console.log(risk);
-
+    
+    const getInputValues = Array.from(document.getElementsByClassName('output-display'));
+    let storeInputValues = [];
+    getInputValues.forEach(inputValue => storeInputValues.push(inputValue.innerText));
+    
+    [yourName, age,annualIncome, ageNow, atAge, presentCost, possibleInvestment,risk] = storeInputValues;
+    
 
     const inputValues = {
-        name: name,
-        age: age,
-        annualIncome: annualIncome,
-        childAgeNow: childAgeNow,
-        ageGoal: meetGoalAge,
-        goalCost: goalCost,
-        possibleInvestment: possibleInvestment,
+        name: yourName,
+        age: parseFloat(age),
+        annualIncome: parseFloat(annualIncome),
+        childAgeNow: parseFloat(ageNow),
+        ageGoal: parseFloat(atAge),
+        goalCost: parseFloat(presentCost),
+        possibleInvestment: parseFloat(possibleInvestment),
         risk: risk,
     }
     console.log(inputValues);
