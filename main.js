@@ -1,4 +1,8 @@
-
+const user = (getID, setID) =>{
+    document.getElementById(setID).innerHTML = document.getElementById(getID).value;
+    document.getElementById(setID).style.color = '#EF4B27';
+    document.getElementById(setID).style.textTransform = 'uppercase';
+}
 
 const displayHide = (displayID = '', hideID = '', inputValueID = '', outputValueID = '') => {
 
@@ -75,12 +79,16 @@ const calculationInvestorInput = (inputValues) => {
     let npr = ageDifference * 12;
     let r = (estimatedPercent / (100 * 12));
 
-    let fv1 = inputValues.goalCost * (Math.pow((1 + inflationPercent / 100), ageDifference));
-    let fv2 = inputValues.possibleInvestment * (Math.pow((1 + estimatedPercent / 100), ageDifference));
-    let fv = fv1 - fv2;
-    let pmt = (fv*r)/(Math.pow((1+r),npr)-1);
+    let cfv1 = inputValues.goalCost * (Math.pow((1 + inflationPercent / 100), ageDifference));
+    let cfv2 = inputValues.possibleInvestment * (Math.pow((1 + estimatedPercent / 100), ageDifference));
+    let cfv = cfv1 - cfv2;
+    let cpmt = (cfv*r)/(Math.pow((1+r),npr)-1);
     
-    
+
+    fv1 = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(cfv1);
+    fv2 = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(cfv2);
+    fv = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(cfv);
+    pmt = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(cpmt);
 
     
     console.log('fv1=>', fv1, 'fv2=>', fv2, 'fv=>', fv, 'pmt=>',pmt);
@@ -88,11 +96,11 @@ const calculationInvestorInput = (inputValues) => {
         name: inputValues.name,
         ageDifference: ageDifference,
         ageGoal: inputValues.ageGoal,
-        fv1: fv1.toFixed(2),
-        fv2: fv2.toFixed(2),
+        fv1: fv1,
+        fv2: fv2,
         inflationPercent: inflationPercent,
         estimatedPercent: estimatedPercent,
-        pmt: pmt.toFixed(2),
+        pmt: pmt,
         possibleInvestment: inputValues.possibleInvestment,
     }
     showOutput(outputValues);
@@ -103,25 +111,26 @@ const showOutput = (outputValues) => {
     document.querySelector('.output-top').innerHTML = `
         <p class="text-justify"> 
         Dear Mr/ Mrs. <strong> ${outputValues.name} </strong>When your Child will be at the Age of  <strong> ${outputValues.ageGoal}</strong> years You are to have <strong>${outputValues.fv1} Taka </strong>For the Event <br>
-        The Inflation is considered at <strong>${outputValues.inflationPercent}%</strong> , And The return is Estimated to be <strong>${outputValues.estimatedPercent}%</strong>
+        
         </p>
         `
-    document.querySelector('.output-bottom-left').innerHTML = `
-        <p class = "text-justify">   
-        Your monthly SIP is <strong> ${outputValues.pmt} Taka </strong> 
+    document.querySelector('.output-middle').innerHTML = `
+        <p class = "text-justify">
+        The Inflation is considered at <strong>${ outputValues.inflationPercent}%</strong> , And The return is Estimated to be <strong>${outputValues.estimatedPercent}%</strong> 
+        
         </p>
         `
-        document.querySelector('.output-bottom-right').innerHTML = `
-        'with lumpsum investment of <strong>${outputValues.possibleInvestment}</strong> will bring the joy of mariage at the age of  <strong>${outputValues.ageGoal} years</strong>  <br>
+        document.querySelector('.output-bottom').innerHTML = `
+        Your monthly SIP is <strong> ${outputValues.pmt} Taka </strong> with lumpsum investment of <strong>${new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(outputValues.possibleInvestment)}</strong> will bring the joy of mariage at the age of  <strong>${outputValues.ageGoal} years</strong>  <br>
         
         </p>
     `
-        document.querySelector('.fv2').innerHTML = `
-        <p class="">
-        <strong>${outputValues.fv2}</strong>
-        </p>
+    //     document.querySelector('.fv2').innerHTML = `
+    //     <p class="">
+    //     <strong>${outputValues.fv2}</strong>
+    //     </p>
     
-    `
+    // `
 }
 
 
